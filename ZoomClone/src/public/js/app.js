@@ -1,1 +1,1 @@
-Boya♥;
+alert("hi")
