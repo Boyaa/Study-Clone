@@ -59,11 +59,15 @@ title.addEventListener("submit", handleRoomSubmit); // 1 첫 번째로 방 제�
 
 nameForm.addEventListener("submit", handleNicknameSubmit);
 
-socket.on("welcome", (user) => {  // 4. welcome 이벤트가 socket에 들어오면 socket.nickname이 user라는 이름의 변수에 값으로 들어간다. 
+socket.on("welcome", (user, newCount) => {  // 4. welcome 이벤트가 socket에 들어오면 socket.nickname이 user라는 이름의 변수에 값으로 들어간다. 
+    const h3 = room.querySelector("h3");
+    h3.innerText = `Room ${roomName} (${newCount})`;
     addMessage(`${user} joined!`);  // 이 때 addMessage라는 함수가 발동되고 그 내용은 user joined
 });
 
-socket.on("bye", (user) => {
+socket.on("bye", (user, newCount) => {
+    const h3 = room.querySelector("h3");
+    h3.innerText = `Room ${roomName} (${newCount})`;
     addMessage(`${user} left! ㅜㅜ`);
 });
 

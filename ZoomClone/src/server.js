@@ -31,6 +31,10 @@ function publicRooms() {
 	return publicRooms;
 }
 
+function countRoom(roomName){
+	return wsServer.sockets.adapter.rooms.get(roomName)?.size;
+}
+
 wsServer.on("connection", (socket) => { // 연결되어서 socket이 생성되면 호출됨 
 	socket["nickname"]="익명이";
 	socket.onAny((event) => {
@@ -41,11 +45,11 @@ wsServer.on("connection", (socket) => { // 연결되어서 socket이 생성되�
 		socket["nickname"] = nickname						// socket에 nickname이라는 컬럼을 만들고 값으로 인자로 넘어온 닉네임 넣어준다 
 		socket.join(roomName);								// socket이 방제에 해당하는 방으로 들어간다.
 		done();												// showRoom() 함수 호출 
-		socket.to(roomName).emit("welcome", socket.nickname)	// 방제에 해당하는 곳에 socket.nickname이라는 인자를 넣어서 welcome event 만들어준다.
+		socket.to(roomName).emit("welcome", socket.nickname, countRoom(roomName))	// 방제에 해당하는 곳에 socket.nickname이라는 인자를 넣어서 welcome event 만들어준다.
 		wsServer.sockets.emit("room_change", publicRooms());
 	});
 	socket.on("disconnecting", () => {
-		socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname));
+		socket.rooms.forEach(room => socket.to(room).emit("bye", socket.nickname, countRoom(room)-1));
 	})
 	socket.on("disconnect", () => {
 		wsServer.sockets.emit("room_change", publicRooms());
