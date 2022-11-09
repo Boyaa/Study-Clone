@@ -134,14 +134,16 @@ socket.on("welcome", async() => { // peerA에서 돌아가는 코드
 });
 
 socket.on("offer", async(offer) => { //peerB에서 돌아가는 코드 
+    console.log("received the offer")
     myPeerConnection.setRemoteDescription(offer); 
     const answer = await myPeerConnection.createAnswer();
-    console.log(answer); 
     myPeerConnection.setLocalDescription(answer) //LocalDescription 만들기
     socket.emit("answer", answer, roomName);
+    console.log("sent the answer");
 })
 
 socket.on("answer", answer => {
+    console.log("receive the answer");
     myPeerConnection.setRemoteDescription(answer); 
 });
 
@@ -149,6 +151,12 @@ socket.on("answer", answer => {
 
 function makeConnection() {
     myPeerConnection = new RTCPeerConnection();
+    myPeerConnection.addEventListener("icecandidate", handleIce);
     myStream.getTracks().forEach((track) => 
     myPeerConnection.addTrack(track, myStream)); // 영상과 오디오 데이터들을 peer Connection에 넣어줘야 한다. 
+}
+
+function handleIce(data) {
+    console.log("got ice candidate !");
+    console.log(data);
 }
