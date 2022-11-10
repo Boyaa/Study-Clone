@@ -59,7 +59,7 @@ async function getMedia(deviceId) {
     } catch (e) {
         console.log(e);
     }
-}
+} // device ID로 Stream 생성 
 
 
 function handleMuteClick() {
@@ -88,7 +88,13 @@ function handleCameraClick() {
 }
 
 async function handleCameraChange() {
-    await getMedia(camerasSelect.value);
+    await getMedia(camerasSelect.value);  // 여기서 새로운 ID로 새로운 Stream 만들었다
+    if (myPeerConnection) {
+        // 이 코드 이후로 내가 video track을 받는다면 그것은 새로운 track일 것이다.
+        const videoTrack = myStream.getVideoTracks()[0]; // 첫번째 video track을 받아준다 
+        const videoSender = myPeerConnection.getSenders().find(sender => sender.track.kind === "video"); 
+    videoSender.replaceTrack(videoTrack)
+    }
 }
 
 muteBtn.addEventListener("click", handleMuteClick);
@@ -130,7 +136,6 @@ socket.on("welcome", async() => { // peerA에서 돌아가는 코드
     myPeerConnection.setLocalDescription(offer) //LocalDescription 만들기
     console.log("sent the offer");
     socket.emit("offer", offer, roomName); // peerB로 offer 보내기 
-    console.log(offer)
 });
 
 socket.on("offer", async(offer) => { //peerB에서 돌아가는 코드 
@@ -147,16 +152,44 @@ socket.on("answer", answer => {
     myPeerConnection.setRemoteDescription(answer); 
 });
 
+socket.on("ice", ice => {
+    console.log("received candidate");
+    myPeerConnection.addIceCandidate(ice);
+});
+
 // RTC code
 
 function makeConnection() {
-    myPeerConnection = new RTCPeerConnection();
+    myPeerConnection = new RTCPeerConnection({
+        iceServers: [{
+               urls: [ "stun:ntk-turn-1.xirsys.com" ]
+        }, 
+        {   username: "ys4dKFmIKjbQK6HcoJh3Oh8u00NcjI4Ii_qofeWG-SQwr3OL6LMBNsgFJ-pXylycAAAAAGNsZ2pib3lh",   credential: "b5b58b30-60a2-11ed-8b56-0242ac120004",   
+        urls: [       "turn:ntk-turn-1.xirsys.com:80?transport=udp",       "turn:ntk-turn-1.xirsys.com:3478?transport=udp",       "turn:ntk-turn-1.xirsys.com:80?transport=tcp",       "turn:ntk-turn-1.xirsys.com:3478?transport=tcp",       "turns:ntk-turn-1.xirsys.com:443?transport=tcp",       "turns:ntk-turn-1.xirsys.com:5349?transport=tcp"   
+    ]}]
+})
     myPeerConnection.addEventListener("icecandidate", handleIce);
+    //myPeerConnection.addEventListener("addstream",handleAddStream);
+    myPeerConnection.addEventListener("track", handleTrack);
     myStream.getTracks().forEach((track) => 
     myPeerConnection.addTrack(track, myStream)); // 영상과 오디오 데이터들을 peer Connection에 넣어줘야 한다. 
-}
+
+};
+
+
 
 function handleIce(data) {
-    console.log("got ice candidate !");
-    console.log(data);
+    console.log("sent candidate");
+    socket.emit("ice", data.candidate, roomName);
 }
+
+// function handleAddStream(data) {
+//     const peersStream = document.getElementById("peersStream")
+//     peerFace.srcObject = data.stream
+// }
+
+function handleTrack(data) {
+    console.log("handle track");
+    const peerFace = document.querySelector("#peerFace");
+    peerFace.srcObject = data.streams[0];
+    };
