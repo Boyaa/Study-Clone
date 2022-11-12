@@ -38,8 +38,7 @@ function countRoom(roomName){
 wsServer.on("connection", (socket) => { // 연결되어서 socket이 생성되면 호출됨 
 	socket["nickname"]="익명이";
 	socket.onAny((event) => {
-		console.log(wsServer.sockets.adapter);
-		console.log(`Socket Event: ${event}`)
+	console.log(`Socket Event: ${event}`)
 	})
 	socket.on("enter_room", (roomName, nickname, done) => { // 3 enter_room이라는 event가 socket에 들어오면 방제, 닉네임, 함수가 인자로 들어온다.
 		socket["nickname"] = nickname						// socket에 nickname이라는 컬럼을 만들고 값으로 인자로 넘어온 닉네임 넣어준다 

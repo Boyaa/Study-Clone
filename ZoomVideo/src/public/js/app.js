@@ -13,6 +13,7 @@ let muted = false; // 음소거가 해제된 상태로 시작
 let cameraOff = false; //  카메라 켜져있는 상태로 시작
 let roomName; // value를 저장하기 위해 선언해줌 
 let myPeerConnection; //누구나 stream에 접근할 수 있게 선언해줌 
+let myDataChannel; // offer 하기 전 data channel 만들 수 있게 선언 
 
 
 // About Media
@@ -132,6 +133,9 @@ welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 // socket code
 
 socket.on("welcome", async() => { // peerA에서 돌아가는 코드 
+    myDataChannel = myPeerConnection.createDataChannel("chat");
+    myDataChannel.addEventListener("message", console.log);
+    console.log("made data channel");
     const offer = await myPeerConnection.createOffer(); // peerA 에서 offer 생성
     myPeerConnection.setLocalDescription(offer) //LocalDescription 만들기
     console.log("sent the offer");
@@ -139,7 +143,11 @@ socket.on("welcome", async() => { // peerA에서 돌아가는 코드
 });
 
 socket.on("offer", async(offer) => { //peerB에서 돌아가는 코드 
-    console.log("received the offer")
+    myPeerConnection.addEventListener("datachannel", (event) => {
+        myDataChannel = event.channel;
+        myDataChannel.addEventListener("message", console.log)
+    });
+    console.log("received the offer");
     myPeerConnection.setRemoteDescription(offer); 
     const answer = await myPeerConnection.createAnswer();
     myPeerConnection.setLocalDescription(answer) //LocalDescription 만들기
