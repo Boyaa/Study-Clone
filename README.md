@@ -24,7 +24,7 @@
 
 
 |제목|내용|
-|--------|-----|
+|-----------|--------|
 |  목적  |[이전 프로젝트](https://github.com/Boyaa/Banada)에서 구현하지 못한 채팅 기능을 구현해보고, Node.JS를 사용해보기 위해 도전.|
 |사용 기술|'Node.js' 'WebRTC' 'WebSocket' 'JavaScript'|
 |배운 내용|1. **nodemon**을 이용해 파일 변경 시 자동으로 서버를 재시작하게 해 편리한 개발 환경을 구축하는 방법 <br> 2. **WebSocket**과 http의 차이와 websocket을 사용하는 이유 <br> 3. **socket.emit**과 **socket.on**을 이용한 채팅 기능 구현<br>|
