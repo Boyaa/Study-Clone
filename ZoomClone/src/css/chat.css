@@ -1,0 +1,139 @@
+@font-face {
+    font-family: 'font';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_three@1.0/D2Coding.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+    font-family: 'font';
+}
+.body{
+    background-color: lightgrey;
+    margin: 0;
+    
+}
+.divnav{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.header{
+    background-color: steelblue;
+    height: 70px;
+    width: 100%;
+}
+.main{
+    margin-top: 80px;
+}
+.booyachatdiv{
+    margin-top: 12px;
+    font-size: 30px;
+    margin-left: 20px;
+    color: aliceblue;
+}
+.booya{
+    opacity: 0.5;
+}
+.img{
+    width: 155px;
+    margin-left: 110px;
+    margin-bottom: 20px;
+}
+.nickinput{
+    width: 220px;
+    height: 30px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: none;
+}
+.roominput{
+    width: 220px;
+    height: 30px;
+    border-radius: 10px;
+    border: none;
+}
+.savebu{
+    background-color: #553830;
+    width: 90px;
+    height: 30px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: none;
+    color: aliceblue;
+}
+.roombu{
+    background-color: #553830;
+    width: 90px;
+    height: 30px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: none;
+    color: aliceblue;
+}
+.Span{
+    opacity: 0.7;
+}
+/* ======================================== */
+#chat{
+    border: 1px solid white;
+    max-width: 400px;
+    max-height: 500px;
+    /* display: flex; */
+    flex-direction: column;
+    margin: 0;
+    position: relative;
+    
+}
+.chatroom{
+    overflow-y: auto;
+    max-width: 400px;
+    max-height: 500px;
+}
+.aa{
+    border: 1px solid white;
+    margin: 0;
+    background-color: #553830;
+    color: white;
+    text-align: center;
+}
+.lll{
+    list-style: none;
+    margin: 25px;
+    height: 460px;
+}
+.meli{
+    border: 1px solid cornflowerblue;
+    width: 70%;
+    height: 30px;
+    margin-left: 100px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: cornflowerblue;
+}
+.youli{
+    border: 1px solid white;
+    width: 70%;
+    height: 30px;
+    margin-left: -50px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    background-color: white;
+}
+.notili{
+    text-align: center;
+}
+.anform{
+    border: 1px solid white;
+    height: 50px;
+    color: white;
+    text-align: center;
+    display: flex;
+}
+.input{
+    width: 350px;
+    height: 45px;
+}
+#blank{
+    margin-bottom: 100px;
+}

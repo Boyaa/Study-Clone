@@ -4,26 +4,39 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title boya
-        link(rel="stylesheet", href="https://unpkg.com/mvp.css")
-    body
-        header
-            h1 boya
-        main
-            div#welcome
-                form#name 
-                    input(placeholder="nickname", required, type="text")
-                    button Save
-                form#title
-                    input(placeholder="room name", required, type="text")
-                    button Enter Room
-                h4 Open Rooms:
-                ul
-            div#room
-                h3 
-                ul 
-                form#msg
-                    input(placeholder="message", required, type="text")
-                    button Send 
+        title boyaTalk
+        //- link(rel="stylesheet", href="https://unpkg.com/mvp.css")
+        style
+            include ../css/chat.css
+
+    body.body
+        div.divnav
+            header.header
+                div.booyachatdiv
+                    span.booya Boooo
+                    span.chat ya 🍀
+            main.main
+                img.img(src='../img/logo.png' alt='logo')
+                div#welcome
+                    form#name 
+                        input.nickinput(placeholder="닉네임 입력하쎄용", required, type="text")
+                        button.savebu 
+                            span.Span Save
+                    form#title
+                        input.roominput(placeholder="채팅방 제목 입력하쎄용", required, type="text")
+                        button.roombu 
+                            span.Span Enter Room
+                    h4 Open Rooms:
+                    ul
+                div#chat(hidden=true)
+                    div.chatroom
+                        h3.aa 
+                        ul.lll 
+                        form#msg
+                            div.anform
+                                input.input(placeholder="message", required, type="text")
+                                button Send 
+        div#blank
+
         script(src="/socket.io/socket.io.js") 
         script(src="/public/js/app.js") 
